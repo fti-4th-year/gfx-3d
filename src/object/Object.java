@@ -1,6 +1,6 @@
 package object;
 
-import matrix.Matrix;
+import vector.Matrix;
 
 public class Object {
 	private Matrix model;

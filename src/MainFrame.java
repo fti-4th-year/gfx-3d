@@ -4,10 +4,10 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
-import matrix.Matrix;
 
 import object.Plane;
 import object.Sphere;
+import vector.Matrix;
 
 
 public class MainFrame extends JFrame {

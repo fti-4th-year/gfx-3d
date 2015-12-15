@@ -1,5 +1,5 @@
-import matrix.Matrix;
-import matrix.Vector;
+import vector.Matrix;
+import vector.Vector;
 
 
 public class Camera {
@@ -21,9 +21,9 @@ public class Camera {
 	public void lookFrom(Vector p) {
 		z.set(p);
 		z.normalize();
-		x.cross(up, z);
+		x = Vector.cross(up, z);
 		x.normalize();
-		y.cross(z, x);
+		y = Vector.cross(z, x);
 		for(int i = 0; i < 3; ++i) {
 			view.data[0 + i] = -x.data[i];
 			view.data[4 + i] = -y.data[i];
