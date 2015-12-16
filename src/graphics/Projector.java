@@ -1,3 +1,4 @@
+package graphics;
 import vector.Matrix;
 
 
@@ -7,10 +8,10 @@ public class Projector {
 	public Projector() {
 		proj = new Matrix();
 	}
-	Matrix getProjMatrix() {
+	public Matrix getProjMatrix() {
 		return proj;
 	}
-	void update() {
+	public void update() {
 		proj = new Matrix();
 		proj.data[0] = n/w;
 		proj.data[5] = n/h;

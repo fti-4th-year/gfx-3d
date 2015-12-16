@@ -1,3 +1,5 @@
+import graphics.Projector;
+
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +23,7 @@ public class SidePanel extends JPanel {
 	private Projector proj;
 	public SidePanel(MainPanel mp) {
 		this.mainPanel = mp;
-		proj = mainPanel.getProjector();
+		proj = mp.getPipeline().getProjector();
 		
 		setPreferredSize(new Dimension(100,0));
 		JPanel panel;

@@ -1,8 +1,13 @@
 package object;
 
+import graphics.Material;
 import vector.Vector;
 
 public abstract class Surface extends Object {
+	public Material face;
+	public Surface() {
+		face = new Material();
+	}
 	public abstract Vector getModelPoint(double u, double v);
 	public Vector getPoint(double u, double v) {
 		Vector p = getModelPoint(u, v);
@@ -16,5 +21,11 @@ public abstract class Surface extends Object {
 		getModelMatrix().multiply(p);
 		p.normalize();
 		return p;
+	}
+	public Material getMaterial() {
+		return face;
+	}
+	public void setMaterial(Material m) {
+		face = m;
 	}
 }
