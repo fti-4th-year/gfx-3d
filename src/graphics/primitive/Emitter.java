@@ -7,7 +7,7 @@ public class Emitter {
 	public Color color;
 	public Vector pos;
 	public Emitter() {
-		color = new Color();
+		color = new Color(1, 1, 1);
 		pos = new Vector();
 	}
 	public Emitter(Color c, Vector p) {

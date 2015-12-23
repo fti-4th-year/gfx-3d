@@ -21,16 +21,18 @@ public class MainFrame extends JFrame {
 		mainPanel = new MainPanel(800, 600);
 		
 		Matrix model;
-		Material mat;
+		Material[] mats;
 		
 		Plane plane = new Plane();
 		model = plane.getModelMatrix();
 		model.data[0] = 2;
 		model.data[5] = 2;
 		model.data[11] = -0.5;
-		mat = new Material();
-		mat.diffuse = new Color(0.1, 0.1, 0.6);
-		plane.setMaterial(mat);
+		mats = new Material[2];
+		mats[1] = new Material();
+		mats[0] = new Material();
+		mats[0].diffuse = new Color(0.4, 0.4, 0.4);
+		plane.setMaterial(mats);
 		mainPanel.addSurface(plane);
 		
 		Sphere sphere = new Sphere();
@@ -38,9 +40,12 @@ public class MainFrame extends JFrame {
 		model.data[0] = 0.5;
 		model.data[5] = 0.5;
 		model.data[10] = 0.5;
-		mat = new Material();
-		mat.specFactor = 4;
-		sphere.setMaterial(mat);
+		mats = new Material[2];
+		mats[0] = new Material();
+		mats[1] = new Material();
+		mats[0].specFactor = 16;
+		mats[1].specFactor = 16;
+		sphere.setMaterial(mats);
 		mainPanel.addSurface(sphere);
 		
 		add(mainPanel, BorderLayout.CENTER);

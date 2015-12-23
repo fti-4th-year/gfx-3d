@@ -8,5 +8,5 @@ import graphics.Shader;
 public interface Projection {
 	public void rasterize(FrameBuffer framebuffer, Shader<Fragment> shader);
 	public Projection[] clip(Vector pos, Vector norm);
-	public Material getMaterial();
+	public Material[] getMaterials();
 }

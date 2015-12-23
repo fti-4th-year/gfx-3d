@@ -14,7 +14,7 @@ public class ProjectedTriangle implements Projection {
 	private Vector[] viewVertices;
 	private Vector[] viewNormals;
 	public Vector[] vertices;
-	public Material face;
+	public Material[] faces;
 	public ProjectedTriangle(Vector[] vertices, Vector[] viewVertices, Vector[] viewNormals) {
 		this.vertices = new Vector[3];
 		this.viewVertices = new Vector[3];
@@ -37,7 +37,7 @@ public class ProjectedTriangle implements Projection {
 		return new Point((int) Math.round(pf.x), (int) Math.round(pf.y));
 	}
 	FPoint PtoSf(Vector p, FrameBuffer fb) {
-		int b = 10;
+		int b = 0;
 		return new FPoint(
 		  0.5*p.data[0]*(fb.getWidth() - b) + 0.5*fb.getWidth(), 
 		  0.5*p.data[1]*(fb.getHeight() - b) + 0.5*fb.getHeight()
@@ -87,6 +87,11 @@ public class ProjectedTriangle implements Projection {
 		if(y1 >= height)
 			y1 = height - 1;
 		
+		int face = 0;
+		if(FPoint.cross(FPoint.sub(ps[1], ps[0]), FPoint.sub(ps[2], ps[0])) <= 0.0) {
+			face = 1;
+		}
+		
 		// Coordinates
 		double[] cs = new double[3];
 		for(int iy = y0; iy <= y1; ++iy) {
@@ -111,35 +116,38 @@ public class ProjectedTriangle implements Projection {
 				
 				if(cs[0] >= 0 && cs[0] <= 1 && cs[1] >= 0 && cs[1] <= 1 && cs[2] >= 0 && cs[2] <= 1) {
 					double dpt = ds[0]*cs[0] + ds[1]*cs[1] + ds[2]*cs[2];
-					Vector n = new Vector(0, 0, 0);
-					Vector v = new Vector(0, 0, 0);
-					for(int i = 0; i < 3; ++i) {
-						v.add(Vector.multiply(viewVertices[i], cs[i]));
-						n.add(Vector.multiply(viewNormals[i], cs[i]));
+					// clip fragment
+					if(dpt >= 0.0 && dpt <= 1.0) {
+						Vector n = new Vector(0, 0, 0);
+						Vector v = new Vector(0, 0, 0);
+						for(int i = 0; i < 3; ++i) {
+							v.add(Vector.multiply(viewVertices[i], cs[i]));
+							n.add(Vector.multiply(viewNormals[i], cs[i]));
+						}
+						n.normalize();
+						
+						Fragment frag = new Fragment();
+						frag.color = new Color(image.getRGB(ix, iy));
+						frag.depth = depth[iy*width + ix];
+						frag.new_depth = dpt;
+						frag.view_norm = n;
+						frag.view_pos = v;
+						frag.material = faces[face];
+						
+						sh.evaluate(frag);
+						
+						depth[iy*width + ix] = frag.depth;
+						image.setRGB(ix, iy, frag.color.getInt());
 					}
-					n.normalize();
-					
-					Fragment frag = new Fragment();
-					frag.color = new Color(image.getRGB(ix, iy));
-					frag.depth = depth[iy*width + ix];
-					frag.new_depth = dpt;
-					frag.view_norm = n;
-					frag.view_pos = v;
-					frag.material = face;
-					
-					sh.evaluate(frag);
-					
-					depth[iy*width + ix] = frag.depth;
-					image.setRGB(ix, iy, frag.color.getInt());
 				}
 			}
 		}
 	}
-	public void setMaterial(Material m) {
-		face = m;
+	public void setMaterials(Material[] ms) {
+		faces = ms;
 	}
 	@Override
-	public Material getMaterial() {
-		return face;
+	public Material[] getMaterials() {
+		return faces;
 	}
 }

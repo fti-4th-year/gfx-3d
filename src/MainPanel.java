@@ -87,6 +87,9 @@ public class MainPanel extends JPanel {
 		}
 		return surfaces.get(surfaces.size() - 1);
 	}
+	int getSurfaceCount() {
+		return surfaces.size();
+	}
 	
 	@Override
 	protected void paintComponent(Graphics g) {

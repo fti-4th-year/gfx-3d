@@ -5,7 +5,7 @@ import vector.Vector;
 import graphics.primitive.Triangle;
 
 public class Triangulator {
-	private int n, m;
+	public int n, m;
 	public Triangulator(int n, int m) {
 		this.n = n;
 		this.m = m;
@@ -14,13 +14,13 @@ public class Triangulator {
 		Vector[] vs = new Vector[3];
 		Vector[] ns = new Vector[3];
 		
-		Triangle[] array = new Triangle[2*(n + 1)*(m + 1)];
+		Triangle[] array = new Triangle[2*n*m];
 		int count = 0;
 		
-		Material mat = surface.getMaterial();
+		Material[] mats = surface.getMaterials();
 		
-		for(int i = 0; i <= n; ++i) {
-			for(int j = 0; j <= m; ++j) {
+		for(int i = 0; i < n; ++i) {
+			for(int j = 0; j < m; ++j) {
 				Triangle t;
 				
 				double u = (double) i/n;
@@ -34,7 +34,7 @@ public class Triangulator {
 				ns[0] = surface.getNorm(u, v);
 				ns[1] = surface.getNorm(un, v);
 				ns[2] = surface.getNorm(un, vn);
-				t = new Triangle(vs, ns, mat);
+				t = new Triangle(vs, ns, mats);
 				array[count++] = t;
 				
 				vs[0] = surface.getPoint(un, vn);
@@ -43,7 +43,7 @@ public class Triangulator {
 				ns[0] = surface.getNorm(un, vn);
 				ns[1] = surface.getNorm(u, vn);
 				ns[2] = surface.getNorm(u, v);
-				t = new Triangle(vs, ns, mat);
+				t = new Triangle(vs, ns, mats);
 				array[count++] = t;
 			}
 		}

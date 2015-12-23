@@ -1,12 +1,17 @@
 package object;
 
 import graphics.Material;
+import util.Color;
 import vector.Vector;
 
 public abstract class Surface extends Object {
-	public Material face;
+	public Material[] faces;
 	public Surface() {
-		face = new Material();
+		faces = new Material[2];
+		faces[0] = new Material();
+		faces[0].diffuse = new Color(0.1, 0.1, 0.6);
+		faces[1] = new Material();
+		faces[1].diffuse = new Color(0.1, 0.6, 0.1);
 	}
 	public abstract Vector getModelPoint(double u, double v);
 	public Vector getPoint(double u, double v) {
@@ -22,10 +27,10 @@ public abstract class Surface extends Object {
 		p.normalize();
 		return p;
 	}
-	public Material getMaterial() {
-		return face;
+	public Material[] getMaterials() {
+		return faces;
 	}
-	public void setMaterial(Material m) {
-		face = m;
+	public void setMaterial(Material[] ms) {
+		faces = ms;
 	}
 }

@@ -8,5 +8,5 @@ public interface Primitive {
 	public Primitive transform(Matrix map);
 	public Projection project(Matrix proj);
 	public Primitive[] clip(Vector pos, Vector norm);
-	public Material getMaterial();
+	public Material[] getMaterials();
 }

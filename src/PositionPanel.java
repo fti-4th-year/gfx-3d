@@ -4,45 +4,48 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import object.Surface;
+import vector.Vector;
 
 
 public class PositionPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
-	JPanel panel;
-	Surface surface;
-	public PositionPanel(JPanel p, Surface s, double[] c) {
-		panel = p;
-		surface = s;
+	public static interface Callback {
+		public void change(Vector c);
+	}
+	Vector pos;
+	Callback cb;
+	public PositionPanel(Vector v, Callback c) {
+		pos = v;
+		cb = c;
 		
 		JSpinner spinner;
 		
-		spinner = new JSpinner(new SpinnerNumberModel(c[0], -100.0, 100.0, 1.0));
+		spinner = new JSpinner(new SpinnerNumberModel(pos.data[0], -100.0, 100.0, 1.0));
 		spinner.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				surface.getModelMatrix().data[3] = ((Double) ((JSpinner)e.getSource()).getValue()).doubleValue();
-				panel.repaint();
+				pos.data[0] = ((Double) ((JSpinner)e.getSource()).getValue()).doubleValue();
+				cb.change(pos);
 			}
 		});
 		add(spinner);
 		
-		spinner = new JSpinner(new SpinnerNumberModel(c[1], -100.0, 100.0, 1.0));
+		spinner = new JSpinner(new SpinnerNumberModel(pos.data[1], -100.0, 100.0, 1.0));
 		spinner.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				surface.getModelMatrix().data[7] = ((Double) ((JSpinner)e.getSource()).getValue()).doubleValue();
-				panel.repaint();
+				pos.data[1] = ((Double) ((JSpinner)e.getSource()).getValue()).doubleValue();
+				cb.change(pos);
 			}
 		});
 		add(spinner);
 		
-		spinner = new JSpinner(new SpinnerNumberModel(c[2], -100.0, 100.0, 1.0));
+		spinner = new JSpinner(new SpinnerNumberModel(pos.data[2], -100.0, 100.0, 1.0));
 		spinner.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent e) {
-				surface.getModelMatrix().data[11] = ((Double) ((JSpinner)e.getSource()).getValue()).doubleValue();
-				panel.repaint();
+				pos.data[2] = ((Double) ((JSpinner)e.getSource()).getValue()).doubleValue();
+				cb.change(pos);
 			}
 		});
 		add(spinner);

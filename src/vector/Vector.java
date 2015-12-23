@@ -90,4 +90,7 @@ public class Vector {
 	static public Vector normalize(Vector v) {
 		return multiply(v, 1.0/length(v));
 	}
+	public String toString() {
+		return "{" + data[0] + ", " + data[1] + ", " + data[2] + "}";
+	}
 }
